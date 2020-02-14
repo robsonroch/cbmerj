@@ -1,0 +1,1 @@
+Este projeto não poderá ser usado para fins corporativos sem autorização expressa de Robson Rocha
