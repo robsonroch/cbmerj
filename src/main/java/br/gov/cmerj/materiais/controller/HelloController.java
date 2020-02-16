@@ -1,4 +1,4 @@
-package br.com.alura.forum.controller;
+package br.gov.cmerj.materiais.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

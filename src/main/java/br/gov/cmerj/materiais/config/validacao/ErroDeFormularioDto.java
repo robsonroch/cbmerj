@@ -1,4 +1,4 @@
-package br.com.alura.forum.config.validacao;
+package br.gov.cmerj.materiais.config.validacao;
 
 public class ErroDeFormularioDto {
 	

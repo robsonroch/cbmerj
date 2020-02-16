@@ -1,4 +1,4 @@
-package br.com.alura.forum.modelo;
+package br.gov.cmerj.materiais.modelo;
 
 import java.time.LocalDateTime;
 

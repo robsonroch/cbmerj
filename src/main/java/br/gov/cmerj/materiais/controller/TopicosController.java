@@ -1,4 +1,4 @@
-package br.com.alura.forum.controller;
+package br.gov.cmerj.materiais.controller;
 
 import java.net.URI;
 import java.util.List;
@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.alura.forum.controller.dto.DetalhesDoTopicoDto;
-import br.com.alura.forum.controller.dto.TopicoDto;
-import br.com.alura.forum.controller.form.AtualizacaoTopicoForm;
-import br.com.alura.forum.controller.form.TopicoForm;
-import br.com.alura.forum.modelo.Topico;
-import br.com.alura.forum.repository.CursoRepository;
-import br.com.alura.forum.repository.TopicoRepository;
+import br.gov.cmerj.materiais.controller.dto.DetalhesDoTopicoDto;
+import br.gov.cmerj.materiais.controller.dto.TopicoDto;
+import br.gov.cmerj.materiais.controller.form.AtualizacaoTopicoForm;
+import br.gov.cmerj.materiais.controller.form.TopicoForm;
+import br.gov.cmerj.materiais.modelo.Topico;
+import br.gov.cmerj.materiais.repository.CursoRepository;
+import br.gov.cmerj.materiais.repository.TopicoRepository;
 
 @RestController
 @RequestMapping("/topicos")

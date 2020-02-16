@@ -1,10 +1,10 @@
-package br.com.alura.forum.controller.dto;
+package br.gov.cmerj.materiais.controller.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.com.alura.forum.modelo.Topico;
+import br.gov.cmerj.materiais.modelo.Topico;
 
 public class TopicoDto {
 
