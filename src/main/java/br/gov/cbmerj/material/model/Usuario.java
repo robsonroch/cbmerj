@@ -1,18 +1,36 @@
 package br.gov.cbmerj.material.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class Usuario {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Length (min=10, max=255)  
+    @Column (unique=true)    
 	private String nome;
 	private String email;
 	private String senha;
+	@ManyToOne(cascade={CascadeType.ALL})
+    @JoinColumn(name="chefe")
+    private Usuario chefe;
+
+    @OneToMany(mappedBy="chefe")
+    private Set<Usuario> subordinados = new HashSet<Usuario>();
 
 	@Override
 	public int hashCode() {
@@ -71,4 +89,20 @@ public class Usuario {
 		this.senha = senha;
 	}
 
+	public Usuario getChefe() {
+		return chefe;
+	}
+
+	public void setChefe(Usuario chefe) {
+		this.chefe = chefe;
+	}
+
+	public Set<Usuario> getSubordinados() {
+		return subordinados;
+	}
+
+	public void setSubordinados(Set<Usuario> subordinados) {
+		this.subordinados = subordinados;
+	}
+	
 }
