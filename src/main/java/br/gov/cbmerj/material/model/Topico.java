@@ -11,7 +11,7 @@ public class Topico {
 	private String mensagem;
 	private LocalDateTime dataCriacao = LocalDateTime.now();
 	private StatusTopico status = StatusTopico.NAO_RESPONDIDO;
-	private Usuario autor;
+	private User autor;
 	private Curso curso;
 	private List<Resposta> respostas = new ArrayList<>();
 
@@ -86,11 +86,11 @@ public class Topico {
 		this.status = status;
 	}
 
-	public Usuario getAutor() {
+	public User getAutor() {
 		return autor;
 	}
 
-	public void setAutor(Usuario autor) {
+	public void setAutor(User autor) {
 		this.autor = autor;
 	}
 

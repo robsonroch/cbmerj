@@ -15,8 +15,13 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import br.gov.cbmerj.material.validation.annotation.UserHierarchyValidator;
+
 @Entity
-public class Usuario {
+@UserHierarchyValidator(message = "Hierarquia circular no usuário")
+public class User {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -27,10 +32,11 @@ public class Usuario {
 	private String senha;
 	@ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="chefe")
-    private Usuario chefe;
+    private User chefe;
 
-    @OneToMany(mappedBy="chefe")
-    private Set<Usuario> subordinados = new HashSet<Usuario>();
+    @OneToMany(mappedBy="chefe", cascade={CascadeType.MERGE})
+    @JsonIgnoreProperties("chefe")
+    private Set<User> subordinates = new HashSet<User>();
 
 	@Override
 	public int hashCode() {
@@ -48,11 +54,11 @@ public class Usuario {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Usuario other = (Usuario) obj;
+		User other = (User) obj;
 		if (id == null) {
-			if (other.id != null)
+			if (other.id != null && !nome.equals(other.nome))
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!id.equals(other.id) && !nome.equals(other.nome))
 			return false;
 		return true;
 	}
@@ -89,20 +95,20 @@ public class Usuario {
 		this.senha = senha;
 	}
 
-	public Usuario getChefe() {
+	public User getChefe() {
 		return chefe;
 	}
 
-	public void setChefe(Usuario chefe) {
+	public void setChefe(User chefe) {
 		this.chefe = chefe;
 	}
 
-	public Set<Usuario> getSubordinados() {
-		return subordinados;
+	public Set<User> getSubordinados() {
+		return subordinates;
 	}
 
-	public void setSubordinados(Set<Usuario> subordinados) {
-		this.subordinados = subordinados;
+	public void setSubordinados(Set<User> subordinados) {
+		this.subordinates = subordinados;
 	}
 	
 }

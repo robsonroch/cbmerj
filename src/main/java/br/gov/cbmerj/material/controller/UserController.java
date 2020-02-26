@@ -15,27 +15,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.gov.cbmerj.material.model.Usuario;
-import br.gov.cbmerj.material.repository.UsuarioRepository;
+import br.gov.cbmerj.material.model.User;
+import br.gov.cbmerj.material.repository.UserRepository;
+import br.gov.cbmerj.material.service.UserService;
 
 @RestController
 @RequestMapping("/usuarios")
-public class UsuarioController {
+public class UserController {
 	
 	@Autowired
-	UsuarioRepository repository;
+	UserService service;
 	
 	@GetMapping
-	public List<Usuario> lista(String nomeChefe) {
+	public List<User> lista(String nomeChefe) {
 		
-		return repository.findAllByChefeNomeLike(nomeChefe);
-		
+		if (nomeChefe == null) {
+			List<User> users = (List<User>) service.findAll();
+			return users;
+		} else {
+			return service.findAllByChefeNomeLike(nomeChefe);
+		}
+				
 	}
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Usuario> cadastrar(@RequestBody @Valid Usuario form, UriComponentsBuilder uriBuilder){
-		repository.save(form);
+	public ResponseEntity<User> cadastrar(@RequestBody @Valid User form, UriComponentsBuilder uriBuilder){
+		service.saveWithSubordinates(form);
 		
 		URI uri = uriBuilder.path("/usuarios/{id}").buildAndExpand(form.getId()).toUri();
 		

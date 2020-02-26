@@ -8,7 +8,7 @@ public class Resposta {
 	private String mensagem;
 	private Topico topico;
 	private LocalDateTime dataCriacao = LocalDateTime.now();
-	private Usuario autor;
+	private User autor;
 	private Boolean solucao = false;
 
 	@Override
@@ -68,11 +68,11 @@ public class Resposta {
 		this.dataCriacao = dataCriacao;
 	}
 
-	public Usuario getAutor() {
+	public User getAutor() {
 		return autor;
 	}
 
-	public void setAutor(Usuario autor) {
+	public void setAutor(User autor) {
 		this.autor = autor;
 	}
 
