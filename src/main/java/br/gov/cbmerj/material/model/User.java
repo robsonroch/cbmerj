@@ -36,9 +36,9 @@ public class User {
 	
 	@ManyToMany
     @JoinTable(name="user_role", joinColumns=
-    {@JoinColumn(name="id")}, inverseJoinColumns=
-      {@JoinColumn(name="id")})
-	private Role papel;	
+    {@JoinColumn(name="user_id")}, inverseJoinColumns=
+      {@JoinColumn(name="role_id")})
+	private Set<Role> papel;	
 
 	@ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="chefe")

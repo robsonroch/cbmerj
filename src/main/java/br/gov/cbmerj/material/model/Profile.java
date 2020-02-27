@@ -1,5 +1,6 @@
 package br.gov.cbmerj.material.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -23,13 +24,13 @@ public class Profile {
 	private String descricao;
 	
 	@ManyToOne
-	@JoinColumn(name = "id")
-	private Set<Role> papeis;
+	@JoinColumn(name = "id", insertable=false, updatable = false)
+	private Role papeis;
 	
 	@ManyToMany
     @JoinTable(name="profile_feature", joinColumns=
-    {@JoinColumn(name="id")}, inverseJoinColumns=
-      {@JoinColumn(name="id")})
+    {@JoinColumn(name="profile_id")}, inverseJoinColumns=
+      {@JoinColumn(name="feature_id")})
 	private Set<Feature> funcionalidades;
 
 }
