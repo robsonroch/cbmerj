@@ -23,13 +23,13 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void saveWithSubordinates(@Valid User chefe) {		
 		
-		List<Long> ids = chefe.getSubordinados().stream().map(User::getId).collect(Collectors.toList());
+		List<Long> ids = chefe.getSubordinates().stream().map(User::getId).collect(Collectors.toList());
 		
 		Set<User> findByIdIn = repositoy.findByIdIn(ids);
 		
 		findByIdIn.stream().forEach(user -> user.setChefe(chefe));
 		
-		chefe.setSubordinados(findByIdIn);
+		chefe.setSubordinates(findByIdIn);
 		repositoy.save(chefe);
 	}
 

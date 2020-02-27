@@ -4,15 +4,14 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import br.gov.cbmerj.material.model.User;
-import br.gov.cbmerj.material.validation.annotation.UserHierarchyValidator;
+import br.gov.cbmerj.material.validation.annotation.UserHierarchyCircleValidator;
 
-public class UserHierarchyValidation implements ConstraintValidator<UserHierarchyValidator, User> {
+public class UserHierarchyCircleValidation implements ConstraintValidator<UserHierarchyCircleValidator, User> {
 
 	@Override
 	public boolean isValid(User user, ConstraintValidatorContext context) {
 		
-		return !user.getSubordinados().contains(user);
-		
+		return !user.getSubordinates().contains(user);	
 		
 	}
 

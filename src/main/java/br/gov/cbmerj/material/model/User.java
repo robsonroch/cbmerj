@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -17,10 +19,10 @@ import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import br.gov.cbmerj.material.validation.annotation.UserHierarchyValidator;
+import br.gov.cbmerj.material.validation.annotation.UserHierarchyCircleValidator;
 
 @Entity
-@UserHierarchyValidator(message = "Hierarquia circular no usuário")
+@UserHierarchyCircleValidator(message = "Hierarquia circular no usuário")
 public class User {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +32,14 @@ public class User {
 	private String nome;
 	private String email;
 	private String senha;
+	private Integer nivelHirarquivo;
+	
+	@ManyToMany
+    @JoinTable(name="user_role", joinColumns=
+    {@JoinColumn(name="id")}, inverseJoinColumns=
+      {@JoinColumn(name="id")})
+	private Role papel;	
+
 	@ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="chefe")
     private User chefe;
@@ -103,12 +113,20 @@ public class User {
 		this.chefe = chefe;
 	}
 
-	public Set<User> getSubordinados() {
+	public Integer getNivelHirarquivo() {
+		return nivelHirarquivo;
+	}
+
+	public void setNivelHirarquivo(Integer nivelHirarquivo) {
+		this.nivelHirarquivo = nivelHirarquivo;
+	}
+
+	public Set<User> getSubordinates() {
 		return subordinates;
 	}
 
-	public void setSubordinados(Set<User> subordinados) {
-		this.subordinates = subordinados;
+	public void setSubordinates(Set<User> subordinates) {
+		this.subordinates = subordinates;
 	}
 	
 }
