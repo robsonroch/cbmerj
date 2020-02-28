@@ -1,11 +1,13 @@
 package br.gov.cbmerj.material.model;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -23,8 +27,10 @@ import br.gov.cbmerj.material.validation.annotation.UserHierarchyCircleValidator
 
 @Entity
 @UserHierarchyCircleValidator(message = "Hierarquia circular no usuário")
-public class User {
+public class User implements UserDetails {
 
+	private static final long serialVersionUID = 1L;
+	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Length (min=10, max=255)  
@@ -34,11 +40,11 @@ public class User {
 	private String senha;
 	private Integer nivelHirarquivo;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="user_role", joinColumns=
     {@JoinColumn(name="user_id")}, inverseJoinColumns=
       {@JoinColumn(name="role_id")})
-	private Set<Role> papel;	
+	private Set<Role> papeis;	
 
 	@ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="chefe")
@@ -127,6 +133,49 @@ public class User {
 
 	public void setSubordinates(Set<User> subordinates) {
 		this.subordinates = subordinates;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.papeis;
+	}
+
+	public Set<Role> getPapeis() {
+		return papeis;
+	}
+
+	public void setPapeis(Set<Role> papeis) {
+		this.papeis = papeis;
+	}
+
+	@Override
+	public String getPassword() {
+		return this.senha;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 	
 }

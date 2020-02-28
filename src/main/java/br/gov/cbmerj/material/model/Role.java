@@ -8,10 +8,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import br.gov.cbmerj.material.enums.AcessSubordinateRecord;
 
 @Entity
-public class Role {
+public class Role implements GrantedAuthority{
+	
+	private static final long serialVersionUID = 1L;
 	
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +41,10 @@ public class Role {
 	}
 	public void setAcessoRegistroSubordinados(AcessSubordinateRecord acessoRegistroSubordinados) {
 		this.acessoRegistroSubordinados = acessoRegistroSubordinados;
+	}
+	@Override
+	public String getAuthority() {
+		return this.descricao;
 	}
 	
 }
