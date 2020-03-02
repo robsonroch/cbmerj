@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.gov.cbmerj.material.model.User;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -23,17 +27,26 @@ public class TokenService {
 		
 		User logado = (User) authentication.getPrincipal();
 		
+		ObjectMapper objectMapper = new ObjectMapper();
+		
 		Date hoje = new Date();
 		Date dataExpiracao = new Date(hoje.getTime() + Long.parseLong(expiration));
 		
-		return Jwts.builder()
-				.setIssuer("API material cbmerj")
-				.setSubject(logado.getId().toString())
-				.setIssuedAt(hoje)
-				.setExpiration(dataExpiracao)
-				.setClaims(logado.getPapeis())
-				.signWith(SignatureAlgorithm.HS256, secret)
-				.compact();
+		String result = "";
+		try {
+			String writeValueAsString = objectMapper.writeValueAsString(logado);
+			result =  Jwts.builder()
+					.setIssuer("API material cbmerj")
+					.setSubject(objectMapper.writeValueAsString(logado))
+					.setIssuedAt(hoje)
+					.setExpiration(dataExpiracao)
+					.signWith(SignatureAlgorithm.HS256, secret)
+					.compact();
+		} catch (JsonProcessingException e) {
+			
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 }
