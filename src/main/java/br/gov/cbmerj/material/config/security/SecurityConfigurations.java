@@ -38,20 +38,21 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers(HttpMethod.GET, "/").permitAll()
+		.antMatchers(HttpMethod.GET, "/login").permitAll()
 		.antMatchers(HttpMethod.GET, "/usuarios").permitAll()
 		.antMatchers(HttpMethod.GET, "/usuarios/*").permitAll()
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
 		.anyRequest().authenticated()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		
+		http.authorizeRequests().antMatchers("/resources/**").permitAll().anyRequest().permitAll();
 	}
 	
 	//Configurações de recursos estaticos(js, css, imagens, etc.
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		// TODO Auto-generated method stub
-		super.configure(web);
+		web.ignoring().antMatchers("/resources/**");
 	}
 	
 	public static void main(String[] args) {

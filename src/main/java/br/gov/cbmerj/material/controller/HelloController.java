@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller
 public class HelloController {
 	
-	@RequestMapping("/")
+	@RequestMapping("/login")
 	public String lista() {
 		return "index.html";
 	}
